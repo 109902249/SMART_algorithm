@@ -1,6 +1,6 @@
 # MATLAB implementation of the SMART algorithm
 
-0. Corresponding author: Qi Zhang, Department of Applied Mathematics and Statistics, Math Tower P137, Stony Brook University, Stony Brook, NY 11794-3600
+0. Corresponding author: Qi Zhang, Department of Applied Mathematics and Statistics, Stony Brook University, Stony Brook, NY 11794-3600
 
 1. The SMART algorithm by Qi Zhang and Jiaqiao Hu [1] is implemented for solving single-objective box-constrained expensive stochastic optimization problems.
 

@@ -7,11 +7,11 @@
 % 1. The SMART algorithm by Qi Zhang and Jiaqiao Hu [1] is implemented for
 % solving single-objective box-constrained expensive stochastic
 % optimization problems.
-% 2. The algorithm samples candidate solutions from a sequence of
-% independent multivariate normal distributions that recursively 
+% 2. In this implementation, the algorithm samples candidate solutions from 
+% a sequence of independent multivariate normal distributions that recursively 
 % approximiates the corresponding Boltzmann distributions [2].
-% 3. The surrogate model is constructed by the radial basis function (RBF)
-% method [3].
+% 3. In this implementation, the surrogate model is constructed by the 
+% radial basis function (RBF) method [3].
 %--------------------------------------------------------------------------
 % REFERENCES
 % [1] Qi Zhang and Jiaqiao Hu: Actor-Critic Like Stochastic Adaptive Search

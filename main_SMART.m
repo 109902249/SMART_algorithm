@@ -1,7 +1,7 @@
 %--------------------------------------------------------------------------
 % Corresponding author: Qi Zhang
 % Department of Applied Mathematics and Statistics,
-% Math Tower P137, Stony Brook University, Stony Brook, NY 11794-3600
+% Stony Brook University, Stony Brook, NY 11794-3600
 % Email: zhangqi{dot}math@gmail{dot}com
 %--------------------------------------------------------------------------
 % 1. The SMART algorithm by Qi Zhang and Jiaqiao Hu [1] is implemented for
@@ -14,7 +14,7 @@
 % radial basis function (RBF) method [3].
 %--------------------------------------------------------------------------
 % REFERENCES
-% [1] Qi Zhang and Jiaqiao Hu: Actor-Critic Like Stochastic Adaptive Search
+% [1] Qi Zhang and Jiaqiao Hu (2019): Actor-Critic Like Stochastic Adaptive Search
 % for Continuous Simulation Optimization. Submitted to Operations Research,
 % under review.
 % [2] Jiaqiao Hu and Ping Hu (2011): Annealing adaptive search,
@@ -93,6 +93,7 @@ Nk=[]; % the number of times shrinking balls being hit
 % performance. The idea is using the sobol set to construct a trustable
 % surrogate model at the beginning.
 fprintf('Warm up begin.\n');
+tic; % count warm up time
 
 sobol_all=sobolset(d);
 Lambda=net(sobol_all,warm_up); % Lambda: records all sampled solutions
@@ -115,9 +116,12 @@ Hk(1:warm_up)=h(1:warm_up);
 % weight: the coefficients of the surrogate model
 weight=D\Hk';
 fprintf('Warm up end.\n');
+tWarmUp=toc; % count warm up time
+fprintf('Warm up takes %8.4f seconds \n',tWarmUp);
 
 %% MAIN LOOP
 fprintf('Main loop begin.\n');
+tic; % count main loop time
 k=warm_up; % iteration counter
 num_evaluation=warm_up; % budget consumption
 while num_evaluation+1<=budget
@@ -241,3 +245,6 @@ end
 %% FINAL REPORT
 fprintf('iter: %5d, eval: %5d, cur best: %8.4f, true optimum: %8.4f \n',...
     k,num_evaluation,c_best_H(k),optimal_objective_value);
+fprintf('Main loop ends \n');
+tMainLoop=toc; % count main loop time
+fprintf('Main loop takes %8.4f seconds \n',tMainLoop);

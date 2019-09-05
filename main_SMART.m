@@ -92,7 +92,7 @@ Nk=[]; % the number of times shrinking balls being hit
 % A warm up period is performed in order to get a robust algorithm
 % performance. The idea is using the sobol set to construct a trustable
 % surrogate model at the beginning.
-fprintf('Warm up begin.\n');
+fprintf('Warm up begins \n');
 tic; % count warm up time
 
 sobol_all=sobolset(d);
@@ -115,7 +115,7 @@ h(1:warm_up)=H+abs(H).*normrnd(0,noise_std,1,warm_up);
 Hk(1:warm_up)=h(1:warm_up);
 % weight: the coefficients of the surrogate model
 weight=D\Hk';
-fprintf('Warm up end.\n');
+fprintf('Warm up ends \n');
 tWarmUp=toc; % count warm up time
 fprintf('Warm up takes %8.4f seconds \n',tWarmUp);
 

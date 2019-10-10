@@ -6,12 +6,12 @@
 %--------------------------------------------------------------------------
 % 1. The SMART algorithm by Qi Zhang and Jiaqiao Hu [1] is implemented for
 % solving single-objective box-constrained expensive stochastic
-% optimization problems.
+% optimization problems
 % 2. In this implementation, the algorithm samples candidate solutions from 
 % a sequence of independent multivariate normal distributions that recursively 
-% approximiates the corresponding Boltzmann distributions [2].
+% approximiates the corresponding Boltzmann distributions [2]
 % 3. In this implementation, the surrogate model is constructed by the 
-% radial basis function (RBF) method [3].
+% radial basis function (RBF) method [3]
 %--------------------------------------------------------------------------
 % REFERENCES
 % [1] Qi Zhang and Jiaqiao Hu (2019): Actor-Critic Like Stochastic Adaptive Search
@@ -29,14 +29,15 @@
 % but WITHOUT ANY WARRANTY, without even the implied warranty of
 % MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 %--------------------------------------------------------------------------
+
 clearvars; close all;
 %% PROBLEM SETTING
 % All test functions H(x) are in dimension 20 (d=20)
 % with box-constrain [-10,10]^d
-% and scaled to have an optimal(max) objective value -1.
+% and scaled to have an optimal(max) objective value -1
 % The observation noise z(x) is normally distributed with a zero mean
 % and a standard deviation that is proportional to |H(x)|, i.e.,
-% z(x)~N(0,(noise_std*|H(x)|)^2).
+% z(x)~N(0,(noise_std*|H(x)|)^2)
 d=20; % dimension of the search region
 left_bound=-10; % left bound of the search region
 right_bound=10; % right bound of the search region
@@ -51,10 +52,10 @@ noise_std=0.1;
 % 5. 'qing_test_fcn'
 % 6. 'styblinskiTang_test_fcn'
 % 7. 'pinter_test_fcn'
-fcn_name='bohachevsky_test_fcn';
+fcn_name='sumSquares_test_fcn';
 %--------------------------------------------------------------------------
 
-%% HYPERPARAMETERS
+%% HYPERPARAMETERS (problem-dependent)
 budget=2000; % total number of function evaluations assigned
 warm_up=5*d; % number of function evaluations used for warm up 
 % alpha: learning rate for updating the mean parameter function m(theta)
@@ -86,9 +87,8 @@ Hk=[]; % performance estimations
 Nk=[]; % number of times shrinking balls being hit
 
 %% WARM UP PERIOD
-% A warm up period is performed in order to get a robust algorithm
-% performance. The idea is using the sobol set to construct a trustable
-% surrogate model at the beginning.
+% A warm up period is performed in order to get a robust algorithm performance
+% The idea is using the sobol set to construct a trustable surrogate model at the beginning
 fprintf('Warm up begins \n');
 tic; % count warm up time
 
@@ -104,8 +104,8 @@ for i=1:warm_up-1
     end
 end
 D=D+D';
-% We do NOT need to implement the shrinking ball strategy here since the
-% observations in the warm up period are far enough.
+% We do NOT need to implement the shrinking ball strategy here
+% since the observations in the warm up period are far enough
 H(1:warm_up)=feval(fcn_name,Lambda); % true objective function value
 h(1:warm_up)=H+abs(H).*normrnd(0,noise_std,1,warm_up); % noisy observation
 Hk(1:warm_up)=h(1:warm_up); % function estimation
@@ -151,7 +151,7 @@ while num_evaluation+1<=budget
     
     %% SURROGATE MODELING
     % given Hk, construct the new surrogate model
-    % cubic model: S_k(x)=\sum_{i=1}^{k} weight(i)*||x-xi||^3
+    % based on a cubic model: S_k(x)=\sum_{i=1}^{k} weight(i)*||x-xi||^3
     [weight,D]=surrogate_model(Hk,D,Lambda,k);
     
     %% SAMPLING PARAMETER UPDATING

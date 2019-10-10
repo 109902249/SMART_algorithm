@@ -1,15 +1,16 @@
 function [weight,D]=surrogate_model(Hk,D,Lambda,k)
 %--------------------------------------------------------------------------
-% 'surrogate_model' constructs the surrogate model that interpolates on all
-% sampled points (including the one sampled in the current step).
-% We exploit a cubic model: S_k(x)=\sum_{i=1}^{k} weight(i)*||x-xi||^3
+% 'surrogate_model' 
+% constructs the surrogate model that interpolates on all sampled points
+% (including the one sampled in the current step)
+% we exploit a cubic model: S_k(x)=\sum_{i=1}^{k} weight(i)*||x-xi||^3
 %--------------------------------------------------------------------------
 % Output arguments
 % ----------------
 % weight   : weight coefficients of the surrogate model 
 % D        : distance matrix of sampled points
 %
-% Input arguments:
+% Input arguments
 % ---------------
 % Hk       : performance estimations
 % D        : distance matrix of sampled points

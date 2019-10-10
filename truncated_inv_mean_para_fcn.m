@@ -1,18 +1,18 @@
 function [mu_new,var_new]=...
     truncated_inv_mean_para_fcn(left_bound,right_bound,mu_old,var_old,eta_x_new,eta_x2_new)
 %--------------------------------------------------------------------------
-% 'truncated_inv_mean_para_fcn' calculates the sampling parameter based on
-% the mean parameter function value. It is the inverse function of the mean
-% parameter function. Since we do not have an analytical form of the
-% solution, we use an iterative method to approximate the solution with a
-% preset precision.
+% 'truncated_inv_mean_para_fcn' 
+% calculates the sampling parameter based on the mean parameter function value
+% it is the inverse function of the mean parameter function 
+% since we do not have an analytical form of the solution
+% we use an iterative method to approximate the solution with a preset precision
 %--------------------------------------------------------------------------
 % Output arguments
 % ----------------
 % mu_new  : the corresponding sampling mean
 % var_new : the corresponding sampling variance
 %
-% Input arguments:
+% Input arguments
 % ---------------
 % left_bound  : left bound of the search region
 % right_bound : right bound of the search region
@@ -32,6 +32,7 @@ iter=0;
 while true
     iter=iter+1;
     
+    % truncated normal distribution
     pdf_l=normpdf(left_bound,mu_old,var_old.^0.5); 
     pdf_u=normpdf(right_bound,mu_old,var_old.^0.5);
 

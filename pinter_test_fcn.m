@@ -1,14 +1,14 @@
 function value=pinter_test_fcn(X)
-%------------------------------------------------------------
-% 'pinter_test_fcn' is the scaled and shifted Pinter function
-% for Nonlinear Optimization.
+%--------------------------------------------------------------------------
+% 'pinter_test_fcn'
+% is the scaled and shifted Pinter function for Nonlinear Optimization
 % http://infinity77.net/global_optimization/test_functions_nd_P.html#go_benchmark.Pinter
 %
 % domain: -10<=x_i<=10 for i=1,...,d                  
 %                  
 % f_max = -1
 % x_max = ones(d,1)   
-%-----------------------------------------------------------
+%--------------------------------------------------------------------------
 X=X-0.5;
 D=size(X);
 A1=X.^2;

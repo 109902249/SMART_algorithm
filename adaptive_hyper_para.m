@@ -1,7 +1,7 @@
 function [alpha,rk,t,numNumInt]=adaptive_hyper_para(k,warm_up,ca,gamma0,cr,gamma2,best_H)
 %--------------------------------------------------------------------------
-% 'adap_hyper_para' calculates the adaptive hyperparameters required in the
-% current iteration k.
+% 'adap_hyper_para'
+% calculates the adaptive hyperparameters required in the current iteration k
 %--------------------------------------------------------------------------
 % Output arguments
 % ----------------
@@ -10,7 +10,7 @@ function [alpha,rk,t,numNumInt]=adaptive_hyper_para(k,warm_up,ca,gamma0,cr,gamma
 % t           : annealing temperature
 % numNumInt   : number of points for numerical integration
 %
-% Input arguments:
+% Input arguments
 % ---------------
 % k           : iteration counter
 % warm_up     : number of function evaluations used for warm up

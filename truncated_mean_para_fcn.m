@@ -1,15 +1,16 @@
 function [eta_x,eta_x2]=truncated_mean_para_fcn(left_bound,right_bound,mu,var)
 %--------------------------------------------------------------------------
-% 'truncated_mean_para_fcn' calculates the mean parameter function value on
-% a truncated domain. The mean parameter function is given by
+% 'truncated_mean_para_fcn' 
+% calculates the mean parameter function value on a truncated domain
+% the mean parameter function is given by
 % m(theta) = E_{sampling distribution}[(X,X^2)]
 %--------------------------------------------------------------------------
 % Output arguments
 % ----------------
-% eta_x  : the expectation of X under the sampling distribution
-% eta_x2 : the expectation of X^2 under the sampling distribution
+% eta_x       : expectation of X under the sampling distribution
+% eta_x2      : expectation of X^2 under the sampling distribution
 %
-% Input arguments:
+% Input arguments
 % ---------------
 % left_bound  : left bound of the search region
 % right_bound : right bound of the search region
@@ -22,6 +23,7 @@ function [eta_x,eta_x2]=truncated_mean_para_fcn(left_bound,right_bound,mu,var)
 % but WITHOUT ANY WARRANTY, without even the implied warranty of
 % MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 %--------------------------------------------------------------------------
+
 % Truncated coefficients of an independent multivariate normal density 
 coef1=(normpdf(left_bound,mu,var.^0.5)-normpdf(right_bound,mu,var.^0.5));
 coef1=coef1./(normcdf(right_bound,mu,var.^0.5)-normcdf(left_bound,mu,var.^0.5));

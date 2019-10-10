@@ -1,7 +1,8 @@
 function [mu_new,var_new,eta_x_new,eta_x2_new]=sampling_updating(mu_old,var_old,left_bound,right_bound,...
         eta_x_old,eta_x2_old,Lambda,weight,numNumInt,t,alpha)
-% 'sampling_updating' updates the sampling parameter based on the recursive
-% relation derived in [1] and the surrogate model (weight)
+% 'sampling_updating' 
+% updates the sampling parameter based on the recursive relation 
+% derived in [1] and the surrogate model (weight)
 %--------------------------------------------------------------------------
 % Output arguments
 % ----------------
@@ -10,7 +11,7 @@ function [mu_new,var_new,eta_x_new,eta_x2_new]=sampling_updating(mu_old,var_old,
 % eta_x_new   : current mean parameter function value E[X]
 % eta_x2_new  : current mean parameter function value E[X^2]
 %
-% Input arguments:
+% Input arguments
 % ---------------
 % mu_old      : previous sampling mean
 % var_old     : previous sampling variance

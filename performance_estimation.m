@@ -1,7 +1,8 @@
 function [Hk,Nk]=performance_estimation(Hk,Nk,hk,Lambda,k,rk,gamma1)
 %--------------------------------------------------------------------------
-% 'performance_estimation' updates the estimation of the true objective
-% function values based on the current noisy observation hk via an 
+% 'performance_estimation' 
+% updates the estimation of the true objective function values 
+% based on the current noisy observation hk via an 
 % asynchronous shrinking ball method
 %--------------------------------------------------------------------------
 % Output arguments
@@ -9,7 +10,7 @@ function [Hk,Nk]=performance_estimation(Hk,Nk,hk,Lambda,k,rk,gamma1)
 % Hk       : current performance estimations
 % Nk       : current number of times shrinking balls being hit
 %
-% Input arguments:
+% Input arguments
 % ---------------
 % Hk       : previous performance estimations
 % Nk       : previous number of times shrinking balls being hit

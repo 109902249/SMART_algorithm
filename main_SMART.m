@@ -173,7 +173,7 @@ while num_evaluation+1<=budget
         plot(optimal_line,'k:','LineWidth',5); % true optimal value
         xlabel('Number of function evaluations')
         ylabel('Objective function value')
-        title(sprintf('<%s function>   Iteration: %5d  Evaluation: %5d',fcn_name,k,num_evaluation));
+        title(sprintf('<%s>   Iteration: %5d  Evaluation: %5d',fcn_name,k,num_evaluation));
         legend('SMART','True optimal value','Location','southeast');
         ylim([c_best_H(1)*1.1 -0.8]);
         grid on

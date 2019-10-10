@@ -32,7 +32,7 @@ alpha=1/(k-warm_up+ca)^gamma0;
 % rk: shrinking ball radius
 rk=cr/log(k-warm_up+1)^gamma2;
 % t: annealing temperature
-t=.1*abs(best_H)/log(k-warm_up + 1);
+t=.1*abs(best_H)/log(k-warm_up+1);
 % numNumInt: number of points for numerical integration
 numNumInt=max(100,floor((k-warm_up)^.5));
 

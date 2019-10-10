@@ -30,6 +30,6 @@ temp(end,1:end-1)=vecnorm(Lambda(:,1:k-1)-Lambda(:,k)).^3;
 % distance matrix is symmetric
 temp(1:end-1,end)=temp(end,1:end-1)';
 D=temp;
-weight=D\Hk(1:k)';
+weight=D\Hk';
 
 end

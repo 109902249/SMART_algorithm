@@ -48,7 +48,8 @@ exp_surrogate_num_int_pts=esnip_fcn(x_num_int,numNumInt,weight,Lambda,...
 % calculate E[X] and E[X^2]
 int_exp_surrogate=sum(exp_surrogate_num_int_pts);
 int_exp_surrogate_x=sum(x_num_int.*exp_surrogate_num_int_pts,2);
-int_exp_surrogate_x2=sum(x_num_int.^2.*exp_surrogate_num_int_pts,2);    
+int_exp_surrogate_x2=sum(x_num_int.^2.*exp_surrogate_num_int_pts,2);
+
 EX = int_exp_surrogate_x/int_exp_surrogate;
 EX2 = int_exp_surrogate_x2/int_exp_surrogate;
 

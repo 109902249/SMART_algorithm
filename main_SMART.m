@@ -1,6 +1,6 @@
 %--------------------------------------------------------------------------
 % Corresponding author: Qi Zhang
-% Department of Applied Mathematics and Statistics,
+% Department of Applied Mathematics and Statistics
 % Stony Brook University, Stony Brook, NY 11794-3600
 % Email: zhangqi{dot}math@gmail{dot}com
 %--------------------------------------------------------------------------

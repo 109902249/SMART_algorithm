@@ -1,4 +1,4 @@
-function [alpha,rk,t,numNumInt]=adaptive_hyper_para(k,warm_up,ca,gamma0,cr,gamma2,best_H)
+function [alpha,rk,t,numNumInt]=adaptive_hyper_para(k,warm_up,ca,gamma0,cr,gamma2,cur_best_H)
 %--------------------------------------------------------------------------
 % 'adap_hyper_para'
 % calculates the adaptive hyperparameters required in the current iteration k
@@ -18,7 +18,7 @@ function [alpha,rk,t,numNumInt]=adaptive_hyper_para(k,warm_up,ca,gamma0,cr,gamma
 % gamma0      : constant power in alpha=1/(k-warm_up+ca)^gamma0
 % cr          : constant shift in rk=cr/log(k-warm_up+1)^gamma2
 % gamma2      : constant power in rk=cr/log(k-warm_up+1)^gamma2
-% best_H      : current best objective function value found
+% cur_best_H  : current best objective function value found
 %--------------------------------------------------------------------------
 % This program is a free software.
 % You can redistribute and/or modify it. 
@@ -32,7 +32,7 @@ alpha=1/(k-warm_up+ca)^gamma0;
 % rk: shrinking ball radius
 rk=cr/log(k-warm_up+1)^gamma2;
 % t: annealing temperature
-t=.1*abs(best_H)/log(k-warm_up+1);
+t=.1*abs(cur_best_H)/log(k-warm_up+1);
 % numNumInt: number of points for numerical integration
 numNumInt=max(100,floor((k-warm_up)^.5));
 

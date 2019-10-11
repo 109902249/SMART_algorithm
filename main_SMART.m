@@ -42,7 +42,7 @@ d=20; % dimension of the search region
 left_bound=-10; % left bound of the search region
 right_bound=10; % right bound of the search region
 optimal_objective_value=-1; % optimal objective value
-noise_std=0.1;
+noise_std=0.1; % standard deviation of the observation noise
 %--------------------------------------------------------------------------
 % The test functions can be chosen from 
 % 1. 'sumSquares_test_fcn'
@@ -79,41 +79,12 @@ var_old=((right_bound-left_bound)/2)^2*ones(d,1);
 [eta_x_old,eta_x2_old]=...
     truncated_mean_para_fcn(left_bound,right_bound,mu_old,var_old);
 
-%% RECORDS
-c_best_H=[]; % current best true objective value found
-H=[]; % true objective values
-h=[]; % noisy observations
-Hk=[]; % performance estimations
-Nk=[]; % number of times shrinking balls being hit
-
 %% WARM UP PERIOD
 % A warm up period is performed in order to get a robust algorithm performance
 % The idea is using the sobol set to construct a trustable surrogate model at the beginning
-fprintf('Warm up begins \n');
-tic; % count warm up time
-
-sobol_all=sobolset(d);
-Lambda=net(sobol_all,warm_up); % all sampled solutions
-Lambda=left_bound+(right_bound-left_bound)*Lambda; Lambda=Lambda';
-Nk(1:warm_up)=ones(1,warm_up);
-% D: initial distance matrix for calculating the surrogate model's weights
-D=zeros(warm_up,warm_up);
-for i=1:warm_up-1
-    for j=i+1:warm_up
-        D(i,j)=norm(Lambda(:,i)-Lambda(:,j))^3;
-    end
-end
-D=D+D';
-% We do NOT need to implement the shrinking ball strategy here
-% since the observations in the warm up period are far enough
-H(1:warm_up)=feval(fcn_name,Lambda); % true objective function value
-h(1:warm_up)=H+abs(H).*normrnd(0,noise_std,1,warm_up); % noisy observation
-Hk(1:warm_up)=h(1:warm_up); % function estimation
-c_best_H(1:warm_up)=max(H(1:warm_up)); % record
-
-weight=D\Hk'; % weight coefficients of the surrogate model
-fprintf('Warm up ends \n');
-tWarmUp=toc; % count warm up time
+fprintf('Warm up begins \n'); tic; % count warm up time
+[Hk,Lambda,Nk,D,best_H]=warm_up_fcn(d,warm_up,left_bound,right_bound,fcn_name,noise_std);
+fprintf('Warm up ends \n'); tWarmUp=toc; % count warm up time
 fprintf('Warm up takes %8.4f seconds \n',tWarmUp);
 
 %% MAIN LOOP
@@ -125,12 +96,12 @@ while num_evaluation+1<=budget
     %% PROGRESS REPORT
     if mod(k,100)==0
         fprintf('iter: %5d, eval: %5d, cur best: %8.4f, true optimum: %8.4f \n',...
-            k,num_evaluation,c_best_H(k),optimal_objective_value);
+            k,num_evaluation,best_H(k),optimal_objective_value);
     end
     k=k+1;
     
     %% ADAPTIVE HYPERPARAMETERS
-    [alpha,rk,t,numNumInt]=adaptive_hyper_para(k,warm_up,ca,gamma0,cr,gamma2,c_best_H(end));
+    [alpha,rk,t,numNumInt]=adaptive_hyper_para(k,warm_up,ca,gamma0,cr,gamma2,best_H(end));
     
     %% SAMPLING
     % given the sampling parameter theta_old=(mu_old,var_old)
@@ -139,15 +110,15 @@ while num_evaluation+1<=budget
     Lambda(:,k)=x_sample; Nk(k)=1;
     
     %% FUNCTION EVALUATION
-    H(k)=feval(fcn_name,x_sample); % true objective function value 
-    h(k)=H(k)+abs(H(k))*normrnd(0,noise_std); % noisy observation
+    cur_H=feval(fcn_name,x_sample); % current true objective function value 
+    cur_h=cur_H+abs(cur_H)*normrnd(0,noise_std); % noisy observation
     num_evaluation=num_evaluation+1;
-    c_best_H(k)=max(c_best_H(k-1),H(k));
+    best_H(k)=max(best_H(k-1),cur_H);
     
     %% PERFORMANCE ESTIMATIONS (asynchronous shrinking ball method)
-    % given the current noisy observation h(k)
+    % given the current noisy observation cur_h
     % update the performance estimation Hk via shrinking ball method
-    [Hk,Nk]=performance_estimation(Hk,Nk,h(k),Lambda,k,rk,gamma1);
+    [Hk,Nk]=performance_estimation(Hk,Nk,cur_h,Lambda,k,rk,gamma1);
     
     %% SURROGATE MODELING
     % given Hk, construct the new surrogate model
@@ -166,16 +137,16 @@ while num_evaluation+1<=budget
     
     %% VISUALIZATION
     if mod(k,10)==0
-        plot(c_best_H,'r-o'); % current best
+        plot(best_H,'r-o'); % current best
         hold on
-        cur_size=size(c_best_H);
+        cur_size=size(best_H);
         optimal_line=optimal_objective_value*ones(cur_size(2),1);
         plot(optimal_line,'k:','LineWidth',5); % true optimal value
         xlabel('Number of function evaluations')
         ylabel('Objective function value')
         title(sprintf('<%s>   Iteration: %5d  Evaluation: %5d',fcn_name,k,num_evaluation));
         legend('SMART','True optimal value','Location','southeast');
-        ylim([c_best_H(1)*1.1 -0.8]);
+        ylim([best_H(1)*1.1 -0.8]);
         grid on
         drawnow;
     end
@@ -183,7 +154,7 @@ end
 
 %% FINAL REPORT
 fprintf('iter: %5d, eval: %5d, cur best: %8.4f, true optimum: %8.4f \n',...
-    k,num_evaluation,c_best_H(k),optimal_objective_value);
+    k,num_evaluation,best_H(k),optimal_objective_value);
 fprintf('Main loop ends \n');
 tMainLoop=toc; % count main loop time
 fprintf('Main loop takes %8.4f seconds \n',tMainLoop);
